@@ -1,4 +1,19 @@
-function Product() {
+function Product(ID, name, description, price, brand, sizes, activeSize, quantity, date, reviews, images) {
+    this.ID = validate(ID, "number");
+    this.name = validate(name, "string");
+    this.description = validate(description, "string");
+    this.price = validate(price, "number");
+    this.brand = validate(brand, "number");
+    this.sizes = sizes;
+    if(this.sizes.includes(activeSize)){
+        this.activeSize = activeSize;
+    }
+    this.quantity = validate(quantity, "number");
+    this.date = new Date(date);
+    this.reviews = reviews;
+    this.images = images;
+
+
     this.getID = function(){
         return this.ID;
     }
@@ -53,12 +68,14 @@ function Product() {
     this.reviews = [],
     this.images = [],
     this.getReviewByID = function(ID){
-        if(this.reviews.ID === ID){
-            return this.reviews(ID);
-        }
+        this.reviews.forEach((review) =>{
+            if(review.ID === ID){
+                return review.review;
+            }
+        });
     } 
-    this.getImage = function(){
-
+    this.getImage = function(image){
+         this.images.push(image);
     }
     this.addSize = function(size){
         const possibleSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -75,12 +92,22 @@ function Product() {
        this.reviews.push(Reviews);
     }
     this.deleteReview = function(){
+        this.reviews.forEach((review) =>{
+            if(review.ID === ID){
+                this.reviews.splice(this.reviews.indexOf(review), 1);
+            }
+        });
+    }
+    this.getAverageRating = function(){
+        let sum = 0;
         
+        this.reviews.forEach((review) =>{
+            
+            sum+= review.rating;
+        });
+        return sum/this.reviews.length;
     }
-    this.getAverageRatin = function(){
-
-    }
-};
+}
 
 function validate( value, type){
     if(typeof value == type){
@@ -88,11 +115,6 @@ function validate( value, type){
     }
 }
 
-let jeans = new Product();
-jeans.addSize('XL');
-jeans.addSize('L');
-jeans.deleteSize('L');
-console.log(jeans.sizes);
 
 
 
