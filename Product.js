@@ -116,13 +116,17 @@ let products = [];
                 }
             });
         }
-        this.getAverageRating = function(){
+        this.getAverageRating = function(ID){
             let sum = 0;
             this.reviews.forEach((review) =>{
-                
-                sum+= review.rating;
+                if(review.ID === ID){
+                    sum = review.rating.service + 
+                    review.rating.price + 
+                    review.rating.value + 
+                    review.rating.quality;
+                }
             });
-            return sum/this.reviews.length;
+            return sum/4;
         }
         products.push(this);
     }
@@ -138,7 +142,7 @@ function validate( value, type){
     }
 }
 function searchProducts(products, search){
-    let matchingProduce = [];
+    let matchingProducts = [];
     let theDescription;
     let theName;
     products.forEach((product) =>{
@@ -151,15 +155,14 @@ function searchProducts(products, search){
                  theDescription = product.description.substring(i, j);
                 }
                 if(theName == search || theDescription == search){
-                 matchingProduce.push(product.name);
+                    matchingProducts.push(product.name);
                  
                 }
             }
         }
     });
-    return matchingProduce;
+    return matchingProducts;
 }
-
 function testSearch(){
     let products = [];
     products.push(new Product(1, "jeans"));
@@ -168,6 +171,47 @@ function testSearch(){
     console.log(searchProducts(products, "a"));
 }
 testSearch();
+function sortProducts(products, sortRule){
+        if(sortRule === "price"){
+            products.sort((a, b) => a.price - b.price);
+        }else if(sortRule === "name"){
+            products.sort((a, b) => a.name.localeCompare(b.name));
+        }else if(sortRule === "ID"){
+            products.sort((a, b) => a.ID - b.ID);
+        }
+  
+    return products;
+   
+}
+function testSortProducts(){
+    let products = [];
+    let apple = new Product(1, "apple", "j", 10);
+    let coconut =new Product(2, "coconut", "j", 25);
+    let gleamer =new Product(3, "gleamer", "j", 10000);
+    let lays =new Product(4, "lays", "j", 80);
+    let ruler =new Product(5, "ruler", "j", 9);
+    let blueJeans =new Product(6, "blue jeans", "j", 350);
+    let bubbleGum =new Product(7, "bubble gum", "j", 270);
+    let orange =new Product(8, "orange", "j", 1);
+    let onion =new Product(9, "onion", "j", 0);
+    products.push(apple,coconut,gleamer,lays,ruler,blueJeans,bubbleGum,orange,onion);
+    products =sortProducts(products, "price");
+    products.forEach((product)=>{
+        console.log(product.price);
+    });
+    products =sortProducts(products, "name");
+    products.forEach((product)=>{
+        console.log(product.name);
+    });
+    products =sortProducts(products, "ID");
+    products.forEach((product)=>{
+        console.log(product.ID);
+    });
+}
+testSortProducts();
+
+
+
 
 
 
