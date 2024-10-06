@@ -5,3 +5,10 @@ function Reviews(ID, author, date, comment, rating){
     this.comment = validate( comment, 'string'),
     this.rating = validate( rating, 'number')
 }
+function validate( value, type){
+    if(typeof value == type){
+      return value;
+    }
+}
+
+export default Reviews;
