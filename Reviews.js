@@ -7,10 +7,10 @@ function Reviews(
    priceRating,
    valueRating,
    qualityRating){
-    this.ID = validate( ID, 'number'),
-    this.author = validate( author, 'string'),
+    this.ID = checkType( ID, 'number'),
+    this.author = checkType( author, 'string'),
     this.date = new Date(date),
-    this.comment = validate( comment, 'string'),
+    this.comment = checkType( comment, 'string'),
     this.rating = {
       service:serviceRating,
       price:priceRating,
@@ -18,7 +18,7 @@ function Reviews(
       quality:qualityRating,
      };
 }
-function validate( value, type){
+function checkType( value, type){
     if(typeof value == type){
       return value;
     }

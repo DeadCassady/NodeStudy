@@ -1,27 +1,28 @@
-let products = [];
-  
-  function Product(
+function Product(
         ID,
         name, 
         description, 
         price, 
-        brand, 
+        brand,
+        sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
         activeSize, 
         quantity, 
-        date){
-        this.ID = validate(ID, "number");
-        this.name = validate(name, "string");
-        this.description = validate(description, "string");
-        this.price = validate(price, "number");
-        this.brand = validate(brand, "number");
-        this.sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+        date,
+        reviews = [],
+        images = []){
+        this.ID = checkType(ID, "number");
+        this.name = checkType(name, "string");
+        this.description = checkType(description, "string");
+        this.price = checkType(price, "number");
+        this.brand = checkType(brand, "number");
+        this.sizes = sizes;
         if(this.sizes.includes(activeSize)){
             this.activeSize = activeSize;
         }
-        this.quantity = validate(quantity, "number");
+        this.quantity = checkType(quantity, "number");
         this.date = new Date(date);
-        this.reviews = [];
-        this.images = [];
+        this.reviews = reviews;
+        this.images = images;
         /**
          * this is a section for the getters and setters
          *  
@@ -30,31 +31,31 @@ let products = [];
             return this.ID;
         }
         this.setID = function(ID){
-            this.ID = validate(ID, "number");
+            this.ID = checkType(ID, "number");
         }
         this.getName = function(){
             return this.name;
         }
         this.setName = function(name){
-            this.name = validate(name, "string");
+            this.name = checkType(name, "string");
         }
         this.getDescription = function(){
             return this.description;
         }
         this.setDescription = function(description){      
-            this.description = validate(description, "string");
+            this.description = checkType(description, "string");
         }
         this.getPrice = function(){
             return '$' + this.price;
         }
         this.setPrice = function(price){
-            this.price = validate(price, "number");
+            this.price = checkType(price, "number");
         }
         this.getBrand = function(){
             return this.brand;
         }
         this.setBrand = function(brand){
-            this.brand = validate(brand, "number");
+            this.brand = checkType(brand, "number");
         }
         this.getActiveSize = function(){
             return this.activeSize;
@@ -71,7 +72,7 @@ let products = [];
             return this.quantity;
         } 
         this.setQuantity = function(quantity){
-            this.quantity = validate(quantity, "number");
+            this.quantity = checkType(quantity, "number");
         }   
         this.getDate = function(){
             return this.date;
@@ -134,7 +135,7 @@ let products = [];
     export default Product;
    
 
-function validate( value, type){
+function checkType( value, type){
     if(typeof value == type){
       return value;
     }else if(typeof value != type && value != undefined){
@@ -163,8 +164,9 @@ function searchProducts(products, search){
     });
     return matchingProducts;
 }
+let products;
 function testSearch(){
-    let products = [];
+    products = [];
     products.push(new Product(1, "jeans"));
     products.push(new Product(2, "blue jeans"));
     products.push(new Product(3, "jacket"));
@@ -180,20 +182,19 @@ function sortProducts(products, sortRule){
             products.sort((a, b) => a.ID - b.ID);
         }
   
-    return products;
-   
+    return products; 
 }
 function testSortProducts(){
     let products = [];
     let apple = new Product(1, "apple", "j", 10);
     let coconut =new Product(2, "coconut", "j", 25);
     let gleamer =new Product(3, "gleamer", "j", 10000);
-    let lays =new Product(4, "lays", "j", 80);
-    let ruler =new Product(5, "ruler", "j", 9);
-    let blueJeans =new Product(6, "blue jeans", "j", 350);
-    let bubbleGum =new Product(7, "bubble gum", "j", 270);
-    let orange =new Product(8, "orange", "j", 1);
-    let onion =new Product(9, "onion", "j", 0);
+    let lays =new Product(5, "lays", "j", 80);
+    let ruler =new Product(4, "ruler", "j", 9);
+    let blueJeans =new Product(8, "blue jeans", "j", 350);
+    let bubbleGum =new Product(9, "bubble gum", "j", 270);
+    let orange =new Product(7, "orange", "j", 1);
+    let onion =new Product(6, "onion", "j", 0);
     products.push(apple,coconut,gleamer,lays,ruler,blueJeans,bubbleGum,orange,onion);
     products =sortProducts(products, "price");
     products.forEach((product)=>{
