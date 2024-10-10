@@ -1,13 +1,13 @@
 function Product(
-        ID,
-        name, 
-        description, 
-        price, 
-        brand,
+        ID='0',
+        name='Jeans', 
+        description='Fine jeans', 
+        price = '10', 
+        brand = "Levi's",
         sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-        activeSize, 
-        quantity, 
-        date,
+        activeSize='L', 
+        quantity='10', 
+        date= new Date(),
         reviews = [],
         images = []){
         this.ID = checkType(ID, "number");
@@ -20,7 +20,7 @@ function Product(
             this.activeSize = activeSize;
         }
         this.quantity = checkType(quantity, "number");
-        this.date = new Date(date);
+        this.date = date;
         this.reviews = reviews;
         this.images = images;
         /**
@@ -129,7 +129,6 @@ function Product(
             });
             return sum/4;
         }
-        products.push(this);
     }
 
     export default Product;
@@ -164,9 +163,9 @@ function searchProducts(products, search){
     });
     return matchingProducts;
 }
-let products;
+
 function testSearch(){
-    products = [];
+    let products = [];
     products.push(new Product(1, "jeans"));
     products.push(new Product(2, "blue jeans"));
     products.push(new Product(3, "jacket"));
@@ -210,15 +209,3 @@ function testSortProducts(){
     });
 }
 testSortProducts();
-
-
-
-
-
-
-
-
-
-
-
-
