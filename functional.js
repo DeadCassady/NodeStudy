@@ -1,6 +1,7 @@
 function splitCSV(CSV){
     let index = 1;
-    const rows= CSV
+    
+    const cities= CSV
     .split('\n')
     .filter((row) => /[\d]/.test(row[0]))
     .map((row) => {
@@ -21,12 +22,20 @@ function splitCSV(CSV){
       index++
       return acc;
     },{})
-    
-    console.log(makeText(rows.Алушта));
+
+    return (city = Object.keys(cities)[0]) => {
+        const name = city
+        const originalString = 'назва міста (Х місце в ТОП-10 найбільших міст України, населення УУУУУУ чоловік)'
+        return originalString
+        .replace("назва міста", name)
+        .replace('Х', cities[city].rating)
+        .replace("УУУУУУ", cities[city].population) 
+    }
 }
 
-let makeText = (city) =>{
-    const name = city.constructor.name;
+let  makeText = (city) =>{
+    console.log();
+    const name = city
     const originalString = 'назва міста (Х місце в ТОП-10 найбільших міст України, населення УУУУУУ чоловік)'
     return originalString
     .replace("назва міста", name)
@@ -35,7 +44,7 @@ let makeText = (city) =>{
 
 }
 
-splitCSV(`44.38,34.33,Алушта,31440,
+const getCity = splitCSV(`44.38,34.33,Алушта,31440,
 49.46,30.17,Біла Церква,200131,
 49.54,28.49,Бердичів,87575,#некомент
 
@@ -46,20 +55,6 @@ splitCSV(`44.38,34.33,Алушта,31440,
 
 # в цьому файлі три рядки-коментарі`)
 
-function test(text){
-    
-    let a = text
-          .toLowerCase()
-          .split("")
-          .filter(a => /[a-z]/.test(a))
-          .map(c => c.charCodeAt())
-          .reduce((a, c) => ((a[c] = (a[c] || 0)+1), a) , [])
-          .slice("a".charCodeAt())
-          .map((c, i) => ({c, i, l: String.fromCharCode(i+97)}))
-          .sort((a, b) => (b.c || 0) - (a.c || 0))
-          .map(({c, l}) => `${l} - ${c}` )
-          .join("\n")
-
-console.log(a);    
-}
-//test('God bless america')
+console.log(getCity('Вінниця'));
+console.log(getCity('Алушта'));
+console.log(getCity('Бердянськ'));
