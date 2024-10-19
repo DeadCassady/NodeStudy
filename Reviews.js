@@ -1,27 +1,22 @@
 function Reviews(
-   ID,
-   author, 
-   date, 
-   comment, 
-   serviceRating,
-   priceRating,
-   valueRating,
-   qualityRating){
-    this.ID = checkType( ID, 'number'),
-    this.author = checkType( author, 'string'),
+   ID=0,
+   author='John Doe', 
+   date = new Date(), 
+   comment = 'Average', 
+   serviceRating = 0,
+   priceRating = 0,
+   valueRating = 0,
+   qualityRating = 0){
+    this.ID = ID,
+    this.author = author,
     this.date = new Date(date),
-    this.comment = checkType( comment, 'string'),
+    this.comment = comment,
     this.rating = {
       service:serviceRating,
       price:priceRating,
       value:valueRating,
       quality:qualityRating,
      };
-}
-function checkType( value, type){
-    if(typeof value == type){
-      return value;
-    }
 }
 
 export default Reviews;

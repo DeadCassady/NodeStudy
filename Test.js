@@ -1,5 +1,5 @@
-import Product from './Product.js'
-import Reviews from './Reviews.js'
+import Product from "./Product.js";
+import Reviews from "./Reviews.js";
 
 //testAddDeleteSize();
 testAddDeleteReview();
@@ -20,11 +20,12 @@ function testAddDeleteReview(){
     jeans.addReview(new Reviews(2, 'Vook',"2024,06,15", "very bad",2,2,2,2));
     jeans.addReview(new Reviews(3, 'Cook',"2024,06,15", "just bad",3,3,3,3));
     jeans.addReview(new Reviews(4, 'Crook',"2024,06,15", "fine",4,4,4,4));
-    console.log(jeans.getAverageRating(1));
+    //console.log(jeans.getAverageRating(1));
     //console.log(jeans.getReviewByID(2));
     //console.log(jeans.getReviewByID(4));
     //jeans.deleteReview(2);
     //console.log(jeans.getReviewByID(2));
+    console.log(jeans.getImage());
 }
 function testGetPrices(){
     let jeans = new Product()

@@ -9,17 +9,17 @@ function Product(
         quantity='10', 
         date= new Date(),
         reviews = [],
-        images = []){
-        this.ID = checkType(ID, "number");
-        this.name = checkType(name, "string");
-        this.description = checkType(description, "string");
-        this.price = checkType(price, "number");
-        this.brand = checkType(brand, "number");
+        images = ['Jeans1','Jeans2','Jeans3','Jeans4']){
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.brand = brand;
         this.sizes = sizes;
         if(this.sizes.includes(activeSize)){
             this.activeSize = activeSize;
         }
-        this.quantity = checkType(quantity, "number");
+        this.quantity = quantity;
         this.date = date;
         this.reviews = reviews;
         this.images = images;
@@ -31,31 +31,31 @@ function Product(
             return this.ID;
         }
         this.setID = function(ID){
-            this.ID = checkType(ID, "number");
+            this.ID = ID;
         }
         this.getName = function(){
             return this.name;
         }
         this.setName = function(name){
-            this.name = checkType(name, "string");
+            this.name = name;
         }
         this.getDescription = function(){
             return this.description;
         }
         this.setDescription = function(description){      
-            this.description = checkType(description, "string");
+            this.description = description;
         }
         this.getPrice = function(){
             return '$' + this.price;
         }
         this.setPrice = function(price){
-            this.price = checkType(price, "number");
+            this.price = price;
         }
         this.getBrand = function(){
             return this.brand;
         }
         this.setBrand = function(brand){
-            this.brand = checkType(brand, "number");
+            this.brand = brand;
         }
         this.getActiveSize = function(){
             return this.activeSize;
@@ -72,7 +72,7 @@ function Product(
             return this.quantity;
         } 
         this.setQuantity = function(quantity){
-            this.quantity = checkType(quantity, "number");
+            this.quantity = quantity;
         }   
         this.getDate = function(){
             return this.date;
@@ -94,7 +94,7 @@ function Product(
             return comment;
         } 
         this.getImage = function(image){
-             this.images.push(image);
+            return this.images[0] || this.images[image];
         }
         this.addSize = function(size){
             const possibleSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -133,14 +133,6 @@ function Product(
 
     export default Product;
    
-
-function checkType( value, type){
-    if(typeof value == type){
-      return value;
-    }else if(typeof value != type && value != undefined){
-        console.log('The ' + value + ' is not of the correct type. Please use a ' + type);
-    }
-}
 function searchProducts(products, search){
     let matchingProducts = [];
     let theDescription;
@@ -171,7 +163,7 @@ function testSearch(){
     products.push(new Product(3, "jacket"));
     console.log(searchProducts(products, "a"));
 }
-testSearch();
+//testSearch();
 function sortProducts(products, sortRule){
         if(sortRule === "price"){
             products.sort((a, b) => a.price - b.price);
@@ -208,4 +200,4 @@ function testSortProducts(){
         console.log(product.ID);
     });
 }
-testSortProducts();
+//testSortProducts();
