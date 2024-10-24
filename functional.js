@@ -1,6 +1,5 @@
 function splitCSV(CSV){
-    let index = 1;
-    
+    //let index = 1;
     const cities= CSV
     .split('\n')
     .filter((row) => /[\d]/.test(row[0]))
@@ -10,38 +9,34 @@ function splitCSV(CSV){
     })
     .sort((a, b) => b.population - a.population)
     .slice(0, 9)
-    .reduce((acc, city) => {
+    .reduce((acc, city, index) => {
         const name = city.name.replace(/[^а-яА-ЯіІ']/,'');
-        if(!acc[name]){
-            acc[name] = [];
-        }
         acc[name] = {
         'population': city.population,
-        'rating': index
-      }
-      index++
+        'rating': index+1
+        }
       return acc;
     },{})
 
-    return (city = Object.keys(cities)[0]) => {
-        const name = city
+    return (string) => {
+        let prevWord = '';
         const originalString = 'назва міста (Х місце в ТОП-10 найбільших міст України, населення УУУУУУ чоловік)'
-        return originalString
-        .replace("назва міста", name)
-        .replace('Х', cities[city].rating)
-        .replace("УУУУУУ", cities[city].population) 
+        const finalString = string
+        .split(' ')
+        .map((word) =>{
+            if(cities[word]){
+                const cityName = word;
+                return originalString
+                .replace("назва міста", word)
+                .replace('Х', cities[word].rating)
+                .replace("УУУУУУ", cities[word].population)
+            }
+            return word
+        })
+        .join(' ')
+
+        return finalString;
     }
-}
-
-let  makeText = (city) =>{
-    console.log();
-    const name = city
-    const originalString = 'назва міста (Х місце в ТОП-10 найбільших міст України, населення УУУУУУ чоловік)'
-    return originalString
-    .replace("назва міста", name)
-    .replace('Х', city.rating)
-    .replace("УУУУУУ", city.population)
-
 }
 
 const getCity = splitCSV(`44.38,34.33,Алушта,31440,
@@ -55,6 +50,7 @@ const getCity = splitCSV(`44.38,34.33,Алушта,31440,
 
 # в цьому файлі три рядки-коментарі`)
 
-console.log(getCity('Вінниця'));
-console.log(getCity('Алушта'));
-console.log(getCity('Бердянськ'));
+//console.log(getCity(''));
+//console.log(getCity('Алушта це прекрасне місто'));
+//console.log(getCity('Я приїхав з міста Бердянськ'));
+console.log(getCity('Я приїхав з Бердянськ в Алушта, а потім поїхав в Вінниця'));
