@@ -1,74 +1,23 @@
 function Validator(){
     this.validateEmail = function(email){
-        const splitEmail = email.split('@');
-        const firstPart = splitEmail[0];
-        const secondPart = splitEmail[1].substring(0,splitEmail[1].lastIndexOf('.'));
-        const end = splitEmail[1].substring(splitEmail[1].lastIndexOf('.')+1,splitEmail[1].length);
-        const regFirstLetter = /[-\.+]/g;
-        const regFirstPart = /[^-\.+A-Za-z]/g;
-        const regSecondPart = /[^A-Za-z0-9.!$%&’*+/=?^_-]/g;
-        const regEnd = /[^A-Za-z0-9]/g;
-        if(
-            regFirstLetter.test(firstPart[0]) || 
-            regFirstPart.test(firstPart) || 
-            firstPart.length < 2 ||
-            firstPart.length > 20 ||
-            regSecondPart.test(secondPart)||
-            secondPart.length > 15 ||
-            regEnd.test(end) ||
-            end.length > 5
-        ){
-
-            return false;
-        }
-        return true;
+        const regEmail = /^(?![\.\-\+])[a-zA-Z0-9\.\-\+]{2,20}@[a-zA-Z0-9\.\!\$\%\&\'\*\+\/\=\?\^\_\-]{1,15}\.[a-zA-Z]{1,5}$/;
+        return regEmail.test(email);
     };
     this.validatePhone = function(phone){
-        const regPhone = /[^0-9+)( \-]/;
-        const regNumbers =/[0-9]/g;
-        const inBrackets = phone.substring(phone.indexOf('(')+1, phone.indexOf(')')).match(regNumbers);
-        const regionCode = phone.substring(phone.indexOf('+')+1, phone.indexOf('(')).match(regNumbers);
-        const allNumbers = phone.match(regNumbers);
-        if(
-            phone.indexOf('+') > 0 ||
-            phone.indexOf('(') > phone.indexOf(')') ||
-            phone.length < 10 || 
-            phone.length > 25 ||
-            regPhone.test(phone) ||
-            allNumbers.length < 10 ||
-            allNumbers.length > 12 ||
-            (inBrackets!= null &&
-            inBrackets.length > 3) ||
-            (regionCode != null &&
-            regionCode.length > 2)
-        ){
-            return false;
-        }
-        return true;
+        const regPhone = /^[\s\-]*(\+38)?[\s\-]*(\(?([\s\-]*[\d]){3}\)?)([\s\-]*[\d]){7}$/
+        return regPhone.test(phone) && phone.length<=25;
     };
     this.validatePassword = function(password){
-        const regPassword = /[^A-Za-z0-9_]/g;
-        const regBigLetter =/[A-Z]/;
-        const regSmallLetter =/[a-z]/;
-        const regNumber =/[0-9]/;
-        if(
-            password.length < 8 || 
-            regPassword.test(password)||
-            !regBigLetter.test(password) ||
-            !regSmallLetter.test(password) ||
-            !regNumber.test(password)
-        ){
-
-            return false;
-        }
-        return true;
+        const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d_]{8,}$/
+        return regPassword.test(password)
     };
 }
+
 test();
 function test(){
-    testEmails();
+    //testEmails();
     testPhone();
-    validatePassword();
+    //validatePassword();
 }
 
 function testEmails(){
@@ -93,6 +42,7 @@ function testPhone(){
     /**
      * expected true
      */
+    console.log('+380995678901', validater.validatePhone('+380995678901'));
      console.log('+38 (099) 567 8901', validater.validatePhone('+38 (099) 567 8901'));
      console.log('+38 099 5 6 7 8 9  01', validater.validatePhone('+38 099 5 6 7 8 9  01'));
      console.log('(09-9) 567-890-1', validater.validatePhone('(09-9) 567-890-1'));
