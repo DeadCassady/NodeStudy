@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8">
+<style>
+  button{
+    background-color: #04AA6D;
+    border-radius: 5px;
+    padding: 10px 30px;
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline;
+    font-size: 13px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  input{
+    border-radius: 8px;
+    padding: 14px 30px;
+    border-color:rgb(180, 185, 188);
+  }
+  div{
+    background-color:black;
+    width:100px;
+    height:100px;
+  }
+  .hidden{
+    display: none;
+  }
+  .square{
+  display:inline-block;
+   background-color:Black
+  }
+  #stats {
+            width: 250px;
+            height: 20px;
+            position: fixed; 
+            top: 10px; 
+            right: 10px; 
+            padding: 10px;
+            background-color: rgb(250, 250, 250);
+            color: rgb(0, 0, 0);
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+  }
+  .editable {
+            display: inline-block;
+            width: 500px;
+            height: 100px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            overflow-y: auto;
+  }
+  #scrollToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none; 
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #04AA6D;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: opacity 0.3s; 
+        }
+  .outer {
+            width: 300px;
+            height: 300px;
+            background-color: #04AA6D;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+  .inner {
+            width: 150px;
+            height: 150px;
+            background-color:  white;
+        }
+  #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(128, 128, 128, 0.7); 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; 
+            }
+  .inputChange {
+     background-color: #b6b6b6;
+     border-radius: 5%;
+     padding: 10px 10px;
+     border: none;
+  }
+  .inputSelected {
+     background-color: #04AA6D;
+     border-radius: 5%;
+     padding: 10px 10px;
+     border: none;
+  }
+
+</style>
+</head>
+<body>
+  <!--These are the black squares that we manipulate with our code-->
+<div id="di" class="square" > 
+</div>
+<div  class="square" > 
+</div>
+<div  class="square" > 
+</div>
+<div  class="square" > 
+</div>
+<div  class="square" > 
+</div>
+<br>
+<!--this button makes the square invisible-->
+<button type="button"
+onclick="document.getElementById('di').style.display = 'none'">
+Set display property to "none"</button>
+<!--this button straight up deletes the square-->
+<button type="button"
+onclick="deleteSquare()">
+Delete element</button>
+<!--this button hides the element by changing it's className to .hidden-->
+<button type="button"
+onclick="makeHidden()">
+Set class to hidden</button>
+<!--this button disables all of the squares present on the page by their class name-->
+<button type="button"
+onclick="switchVisibility()">
+Switch visibility</button>
+<br>
+<hr>
+<!--This input determines by which selector we choose which elements are to be disabled-->
+<input type="text" id="selector" placeholder="Set selector">
+<br>
+<!--This button disables the elements once we choose a selector-->
+<button type="button" onclick ="setSelector()">
+  Remove/add by selector
+</button>
+<br>
+<hr>
+<div id="yellow" style="background-color:rgba(255, 255, 0, 0.761)""></div>
+<br>
+<hr>
+<!--The button and the red square that is controlled by this button-->
+<button type="button" id="redButton">
+  Put the mouse over me!
+</button>
+<br>
+<br>
+<div id="red" style="height: 50px; width: 50px; background-color:rgba(255, 0, 0, 0.761)" "></div>
+<br>
+<hr>
+<input type="text" id="greenInput" placeholder="Write something">
+<br>
+<br>
+<div id="green" style="display:none; height: 50px; width: 20px; background-color:rgba(0, 255, 13, 0.761)" "></div>
+<br>
+<hr>
+<input type="text" id="pInput" placeholder="Insert image URL">
+<br>
+<br>
+<button type="button" id="pButton" onclick="revealImage()">
+  Reveal the image
+</button>
+<br>
+<img id="picture" src="">
+<br>
+<hr>
+<textarea id="tArea">
+</textarea>
+<br>
+<br>
+<button type="button" id="tButton" onclick="revealImages()">
+  Reveal the images
+</button>
+<br>
+<div id="gallery" style="background-color:white; display:inline"></div>
+<!--the following element represents coordinates in the corner of the screen-->
+<div  id="stats"" >
+     Coordinates: <span id="coordinates"></span><br>
+     Language: <span id="language"></span>
+     User-location: <span id="location"></span>
+</div>
+<br>
+<br>
+<!--the following divs are the input fields that should save the data-->
+<div id="block1" class="editable" contenteditable="true"></div>
+<div id="block2" class="editable" contenteditable="true"></div>
+<div id="block3" class="editable" contenteditable="true"></div>
+<!--this is the scroll up button-->
+<button id="scrollToTopBtn" onclick="scrollToTop()">To the top</button>
+<br>
+<hr>
+<!--These are two block one inside another-->
+<div class="outer" id="outerBlock">
+  <div class="inner" id="innerBlock">
+  </div>
+</div>
+<br>
+<hr>
+<button id="showOverlayBtn">Overlay</button>
+<div id="overlay"></div>
+<br>
+<hr>
+<form onsubmit="handleSubmit(event)"><input type="submit" value="GO"></form>
+<br>
+<hr>
+<input type="file" id="fileDrop">
+
+
+
+ 
+<script>
+  function deleteSquare(){
+    document.getElementById("di").remove()
+  }
+  function makeHidden(){
+    document.getElementById("di").className = "hidden";
+  }
+  function switchVisibility(){
+    const x = document.getElementsByClassName("square");
+    for(let i = 0; i < x.length; i++){
+      if(x[i].style.display == 'none'){
+        x[i].style.display = 'inline-block'
+      }else{
+        x[i].style.display = 'none'
+      }
+    }
+  }
+  
+  /**
+   * the setSelector function allows us to input a selector 
+   * and hide all the elements that fall under the said selector
+   */ 
+  function setSelector(){
+    const input = document.getElementById("selector").value
+    const selected = document.querySelectorAll(input);
+    for(let i = 0; i < selected.length; i++){
+      selected[i].style.display == 'none'? selected[i].style.display = 'inline-block':selected[i].style.display = 'none';
+    } 
+  }
+  /**
+   * this set of functions determines what happens
+   * to the yellow square when you click on it
+   */ 
+  const yellowSquare = document.getElementById("yellow");
+  yellowSquare.addEventListener("click", firstClick)
+  function firstClick(){
+      alert("Привіт")
+      yellowSquare.removeEventListener("click", firstClick);
+      yellowSquare.addEventListener("click", secondClick);
+  }
+  function secondClick(){
+       yellowSquare.style.display = "none"
+  }
+  /**
+   * the following set of function determines what heppens
+   * to the red square when you hover over the button
+   */ 
+  const redSquare = document.getElementById("red");
+  const redButton = document.getElementById("redButton");
+  redButton.addEventListener("mouseover", onMouseOver)
+  redButton.addEventListener("mouseout", onMouseOut)
+  function onMouseOver(){
+    redSquare.style.display = "none"
+  }
+  function onMouseOut(){
+    redSquare.style.display = "inline-block"
+  }
+  /**
+   * the following functions control the input line
+   * and the green square connected to it
+   */   
+  const greenSquare = document.getElementById("green")
+  const greenInput = document.getElementById("greenInput")
+   greenInput.addEventListener("focus", () => {
+     greenSquare.style.display = "inline-block"
+   })
+   greenInput.addEventListener("input", () => {
+      greenSquare.style.display = "none";
+    })
+  /**
+   * the following function adds a picture from the url
+   * specified in the input field
+   */ 
+  function revealImage(){
+    const input = document.getElementById("pInput").value
+    document.getElementById("picture").src = input
+  }
+    /**
+   * the following function adds the pictures from the urls
+   * specified in the textarea
+   */ 
+   function revealImages(){
+    const input = document.getElementById("tArea").value.split(/\n/)
+    console.log(input)
+    input.map((u)=>{
+      document.getElementById("gallery").innerHTML += '<img src="'+u+'"">'
+    }) 
+  }
+  /**
+   * the followign function 
+   * checks the coordinates of the mouse, browser language and the user's geolocation in coordinates
+   */
+  const coordinatesSpan = document.getElementById("coordinates");
+  const languageSpan = document.getElementById("language");
+  const locationSpan = document.getElementById("location");
+  languageSpan.innerText = navigator.language || navigator.userLanguage;
+  locationSpan.innerText = navigator.geolocation.getCurrentPosition(showPosition);
+  function updateCoordinates(event){
+        const x = event.clientX; 
+        const y = event.clientY;
+        coordinatesSpan.innerText = `X: ${x}, Y: ${y}`; 
+  }
+  function showPosition(position){
+    locationSpan.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+  }
+  document.addEventListener("mousemove", updateCoordinates);
+  /**
+   * the following code will allow us to save the input locally
+   */ 
+   function setCookie(name, value) {
+    const d = new Date();
+    d.setTime(d.getTime() + (2 * 24 * 60 * 60 * 1000));
+    let expires = "expires="+d.toUTCString();
+    console.log(value)
+    document.cookie = name + "=" + value + expires + ";path=/";
+    console.log(document.cookie)
+  }
+  function getCookie(name) {
+    const nameEQ = name;
+    let decodedCookie = document.cookie;
+    console.log(decodedCookie)
+    if (decodedCookie.indexOf(name) == 0) {
+      return decodedCookie.substring(name.length, c.length);
+    }     
+    return ""
+  }
+
+  function loadContent(){
+    document.getElementById("block1").innerText = localStorage.getItem("block1")
+    document.getElementById("block2").innerText = sessionStorage.getItem("block2")
+    document.getElementById("block3").innerText = getCookie("block3")
+  }
+  function saveCookie(element) {
+    const content = document.getElementById(element).innerText;
+    setCookie(element, content); 
+  }
+  function saveLocal(element){
+    const content = document.getElementById(element).innerText;
+    localStorage.setItem(element, content);
+  }
+  function saveSession(element){
+    const content = document.getElementById(element).innerText;
+    sessionStorage.setItem(element, content);
+  }
+
+  document.getElementById("block1").addEventListener("input", () => saveLocal("block1"));
+  document.getElementById("block2").addEventListener("input", () => saveSession("block2"));
+  document.getElementById("block3").addEventListener("input", () => saveCookie("block3"));
+  window.onload = loadContent;
+  /**
+   * the following function powers
+   * the button to scroll up 
+   */ 
+   const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+
+  window.onscroll = function() {
+      if (window.scrollY > 300) { 
+          scrollToTopBtn.style.display = "block";
+      } else {
+          scrollToTopBtn.style.display = "none";
+      }
+  };
+  function scrollToTop() {
+      window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+      });
+  }
+  /**
+   * following functions define how
+   * the inner auter block work
+   */  
+
+  document.getElementById("outerBlock").addEventListener("click", function() {
+            alert("Outer click");
+        });
+        document.getElementById("innerBlock").addEventListener("click", function(event) {
+            alert("Inner click");
+            event.stopPropagation(); 
+        });
+  /**
+   * the following function controls the overlay
+   */ 
+
+  const overlay = document.getElementById("overlay");
+  const showOverlayBtn = document.getElementById("showOverlayBtn");
+  showOverlayBtn.addEventListener("click", () => {
+        overlay.style.display = "flex"; 
+        document.body.style.overflow = "hidden"; 
+  });
+  overlay.addEventListener("click", () => {
+        overlay.style.display = "none";
+        document.body.style.overflow = ""; 
+  });
+  /**
+   * disables the GO button functionality
+   */ 
+
+  function handleSubmit(event) {
+            event.preventDefault(); 
+            alert('Button pressed'); 
+  }
+  /**
+   *The following function handle the drag and drop functionality
+   */
+  let inFile = document.getElementById("fileDrop")
+  inFile.addEventListener('dragover', (event)=>{
+    event.preventDefault();
+    inFile.classList.add("inputChange")
+  })
+  inFile.addEventListener('dragleave', () => {
+    inFile.classList.remove("inputChange")
+  })
+  inFile.addEventListener('drop', (event)=>{
+    event.preventDefault()
+    inFile.classList.remove("inputChange")
+    inFile.classList.add("inputSelected")
+  })
+</script>
+</body>
+</html>
